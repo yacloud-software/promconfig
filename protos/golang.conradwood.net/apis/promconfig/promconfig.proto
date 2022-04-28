@@ -44,7 +44,9 @@ message SeriesList {
 
 
 service PromConfigService {
-  // call this when we want to replace a bunch of new targets
+  // query registry for new targets
+  rpc QueryForTargets(Reporter) returns (TargetList);
+  // submit new targes, call this when we want to replace a bunch of new targets
   rpc NewTargets(TargetList) returns (common.Void);
   // find series by partial name match
   rpc FindSeries(SeriesMatch) returns (SeriesList);
