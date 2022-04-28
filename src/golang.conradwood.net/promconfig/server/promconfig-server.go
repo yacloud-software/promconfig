@@ -42,7 +42,10 @@ func main() {
 /************************************
 * grpc functions
 ************************************/
-
+func (e *promConfigServer) QueryForTargets(ctx context.Context, req *pb.Reporter) (*pb.TargetList, error) {
+	tl, err := targets.QueryForTargets(ctx, req)
+	return tl, err
+}
 func (e *promConfigServer) NewTargets(ctx context.Context, req *pb.TargetList) (*common.Void, error) {
 	err := targets.UpdateTargets(req)
 	if err != nil {

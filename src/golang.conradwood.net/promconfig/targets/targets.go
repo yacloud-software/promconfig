@@ -5,9 +5,12 @@ package targets
 
 import (
 	"bytes"
+	"context"
 	"flag"
 	"fmt"
 	pb "golang.conradwood.net/apis/promconfig"
+	reg "golang.conradwood.net/apis/registry"
+	"golang.conradwood.net/go-easyops/client"
 	"golang.conradwood.net/go-easyops/utils"
 	"golang.org/x/sys/unix"
 	"io/ioutil"
@@ -251,4 +254,53 @@ func RewriteConfigFile() {
 	if err != nil {
 		fmt.Printf("Failed to write config file: %s\n", err)
 	}
+}
+
+func QueryForTargets(ctx context.Context, req *pb.Reporter) (*pb.TargetList, error) {
+	rn := req.Reporter
+	if !strings.Contains(rn, ":") {
+		rn = rn + ":5001"
+	}
+	fmt.Printf("Querying \"%s\"\n", rn)
+	res := &pb.TargetList{Reporter: &pb.Reporter{Reporter: rn}}
+	con, err := client.ConnectWithIP(rn)
+	if err != nil {
+		return nil, err
+	}
+	rg := reg.NewRegistryClient(con)
+	rl, err := rg.ListRegistrations(ctx, &reg.V2ListRequest{})
+	if err != nil {
+		return nil, err
+	}
+	ts := make(map[string][]string)
+	for _, r := range rl.Registrations {
+		if !r.Targetable {
+			continue
+		}
+		if !r.Running {
+			continue
+		}
+		if !hasStatus(r.Target) {
+			continue
+		}
+		sn := r.Target.ServiceName
+		ts[sn] = append(ts[sn], fmt.Sprintf("%s:%d", r.Target.IP, r.Target.Port))
+	}
+	addressct := 0
+	for sn, sl := range ts {
+		addressct++
+		t := &pb.Target{Name: sn, Addresses: sl}
+		res.Targets = append(res.Targets, t)
+	}
+	fmt.Printf("Queried, got %d services and %d addresses\n", len(ts), addressct)
+	return res, nil
+}
+
+func hasStatus(r *reg.Target) bool {
+	for _, at := range r.ApiType {
+		if at == reg.Apitype_status {
+			return true
+		}
+	}
+	return false
 }

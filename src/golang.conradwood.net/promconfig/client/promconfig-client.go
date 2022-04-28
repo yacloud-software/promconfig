@@ -6,6 +6,7 @@ import (
 	pb "golang.conradwood.net/apis/promconfig"
 	"golang.conradwood.net/go-easyops/authremote"
 	"golang.conradwood.net/go-easyops/client"
+	"golang.conradwood.net/go-easyops/cmdline"
 	"golang.conradwood.net/go-easyops/utils"
 	"os"
 	"strings"
@@ -35,11 +36,12 @@ func main() {
 	// a context with authentication
 	ctx := authremote.Context()
 
-	empty := pb.TargetList{}
-	response, err := echoClient.NewTargets(ctx, &empty)
+	response, err := echoClient.QueryForTargets(ctx, &pb.Reporter{Reporter: cmdline.GetRegistryAddress()})
 	utils.Bail("Failed to ping server", err)
-	fmt.Printf("Response to ping: %v\n", response)
-
+	fmt.Printf("queried and found %d targets\n", len(response.Targets))
+	for _, t := range response.Targets {
+		fmt.Printf("%v\n", t)
+	}
 	fmt.Printf("Done.\n")
 	os.Exit(0)
 }
