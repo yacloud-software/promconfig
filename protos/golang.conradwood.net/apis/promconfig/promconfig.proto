@@ -1,0 +1,50 @@
+
+syntax = "proto3";
+
+package promconfig;
+option java_package = "net.conradwood.golang.apis.promconfig";
+import "golang.conradwood.net/apis/common/common.proto";
+
+message Target {
+  string Name = 1;               // servicename
+  repeated string Addresses = 2; // host:port
+  Reporter Reporter = 3;         // who reported it?
+}
+message Reporter {
+  string Reporter = 1; // who reports this (e.g. registry)
+}
+message TargetList {
+  Reporter Reporter = 1;
+  repeated Target Targets = 2;
+}
+
+enum AlertEffects {
+  NOBODY=0;
+  USERS=1;
+  SYSOP=2;
+}
+
+message PercentAlert {
+  uint64 ID=1;
+  string TotalMetric=2; // the metric for 'total', e.g. "TotalPing"
+  string CountMetric=3;  // the metric for alerting, e.g. "PingFailures"
+  AlertEffects Effects=4 [(common.sql_type)="uint32"];
+}
+
+message SeriesMatch {
+  repeated string Prefix=1;
+}
+message Series {
+  string Name=1;
+}
+message SeriesList {
+  repeated Series Series=1;
+}
+
+
+service PromConfigService {
+  // call this when we want to replace a bunch of new targets
+  rpc NewTargets(TargetList) returns (common.Void);
+  // get a list of metrics
+  rpc GetSeries(SeriesMatch) returns (SeriesList);
+}
