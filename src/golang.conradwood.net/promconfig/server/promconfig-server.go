@@ -19,7 +19,7 @@ var (
 	debug = flag.Bool("debug", false, "debug mode")
 )
 
-type echoServer struct {
+type promConfigServer struct {
 }
 
 func main() {
@@ -29,7 +29,7 @@ func main() {
 	sd.Port = *port
 	sd.Register = server.Register(
 		func(server *grpc.Server) error {
-			e := new(echoServer)
+			e := new(promConfigServer)
 			pb.RegisterPromConfigServiceServer(server, e)
 			return nil
 		},
@@ -43,7 +43,7 @@ func main() {
 * grpc functions
 ************************************/
 
-func (e *echoServer) NewTargets(ctx context.Context, req *pb.TargetList) (*common.Void, error) {
+func (e *promConfigServer) NewTargets(ctx context.Context, req *pb.TargetList) (*common.Void, error) {
 	err := targets.UpdateTargets(req)
 	if err != nil {
 		if *debug {
