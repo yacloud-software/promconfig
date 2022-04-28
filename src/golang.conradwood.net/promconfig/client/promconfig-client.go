@@ -35,8 +35,10 @@ func main() {
 	echoClient := pb.NewPromConfigServiceClient(con)
 	// a context with authentication
 	ctx := authremote.Context()
-
-	response, err := echoClient.QueryForTargets(ctx, &pb.Reporter{Reporter: cmdline.GetRegistryAddress()})
+	rg := cmdline.GetRegistryAddress()
+	rg = strings.TrimSuffix(rg, ":5000")
+	rg = rg + ":5001"
+	response, err := echoClient.QueryForTargets(ctx, &pb.Reporter{Reporter: rg})
 	utils.Bail("Failed to ping server", err)
 	fmt.Printf("queried and found %d targets\n", len(response.Targets))
 	for _, t := range response.Targets {

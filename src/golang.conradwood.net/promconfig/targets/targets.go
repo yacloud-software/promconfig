@@ -288,7 +288,7 @@ func QueryForTargets(ctx context.Context, req *pb.Reporter) (*pb.TargetList, err
 	}
 	addressct := 0
 	for sn, sl := range ts {
-		addressct++
+		addressct = addressct + len(sl)
 		t := &pb.Target{Name: sn, Addresses: sl}
 		res.Targets = append(res.Targets, t)
 	}
