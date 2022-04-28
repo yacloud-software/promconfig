@@ -44,7 +44,14 @@ func main() {
 ************************************/
 func (e *promConfigServer) QueryForTargets(ctx context.Context, req *pb.Reporter) (*pb.TargetList, error) {
 	tl, err := targets.QueryForTargets(ctx, req)
-	return tl, err
+	if err != nil {
+		return nil, err
+	}
+	err = targets.UpdateTargets(tl)
+	if err != nil {
+		return nil, err
+	}
+	return tl, nil
 }
 func (e *promConfigServer) NewTargets(ctx context.Context, req *pb.TargetList) (*common.Void, error) {
 	err := targets.UpdateTargets(req)
