@@ -33,6 +33,7 @@ message PercentAlert {
 
 message SeriesMatch {
   repeated string Prefix=1;
+  bool PartialMatch=2;
 }
 message Series {
   string Name=1;
@@ -45,6 +46,8 @@ message SeriesList {
 service PromConfigService {
   // call this when we want to replace a bunch of new targets
   rpc NewTargets(TargetList) returns (common.Void);
-  // get a list of metrics
-  rpc GetSeries(SeriesMatch) returns (SeriesList);
+  // find series by partial name match
+  rpc FindSeries(SeriesMatch) returns (SeriesList);
+  // get a list of all metrics
+  rpc GetSeries(common.Void) returns (SeriesList);
 }
