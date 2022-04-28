@@ -5,18 +5,22 @@ import (
 	"fmt"
 	"golang.conradwood.net/apis/common"
 	pb "golang.conradwood.net/apis/promconfig"
+	"golang.conradwood.net/go-easyops/authremote"
 	"golang.conradwood.net/go-easyops/server"
 	//	"golang.conradwood.net/go-easyops/utils"
+	"context"
 	"golang.conradwood.net/go-easyops/utils"
 	"golang.conradwood.net/promconfig/targets"
-	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"os"
+	"strings"
+	"time"
 )
 
 var (
-	port  = flag.Int("port", 10000, "The grpc server port")
-	debug = flag.Bool("debug", false, "debug mode")
+	port       = flag.Int("port", 10000, "The grpc server port")
+	debug      = flag.Bool("debug", false, "debug mode")
+	registries = flag.String("registries", "", "if set, query these registries regularly and on startup")
 )
 
 type promConfigServer struct {
@@ -25,6 +29,7 @@ type promConfigServer struct {
 func main() {
 	flag.Parse()
 	fmt.Printf("Starting Promconfig...\n")
+	go reg_query_loop()
 	sd := server.NewServerDef()
 	sd.Port = *port
 	sd.Register = server.Register(
@@ -63,4 +68,23 @@ func (e *promConfigServer) NewTargets(ctx context.Context, req *pb.TargetList) (
 	}
 	resp := &common.Void{}
 	return resp, nil
+}
+
+func reg_query_loop() {
+	t := time.Duration(3) * time.Second
+	for {
+		time.Sleep(t)
+		if *registries != "" {
+			pcs := &promConfigServer{}
+			for _, r := range strings.Split(*registries, ",") {
+				ctx := authremote.Context()
+				req := &pb.Reporter{Reporter: r}
+				_, err := pcs.QueryForTargets(ctx, req)
+				if err != nil {
+					fmt.Printf("failed to query registry \"%s\": %s\n", req.Reporter, err)
+				}
+			}
+		}
+		t = time.Duration(15) * time.Minute
+	}
 }
