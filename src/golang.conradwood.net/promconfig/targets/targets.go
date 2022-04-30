@@ -113,11 +113,16 @@ func UpdateTargets(req *pb.TargetList) error {
 	// we don't want to run multi-threaded, we're writing files!
 	promlock.Lock()
 	defer promlock.Unlock()
-
-	tce := targets.Targets[req.Reporter.Reporter]
+	repname := req.Reporter.Reporter
+	i := strings.Index(repname, ":")
+	if i >= 0 {
+		repname = repname[:i]
+	}
+	repname = strings.ToLower(repname)
+	tce := targets.Targets[repname]
 	if tce == nil {
-		tce = &targetCacheEntry{reporter: req.Reporter.Reporter}
-		targets.Targets[req.Reporter.Reporter] = tce
+		tce = &targetCacheEntry{reporter: repname}
+		targets.Targets[repname] = tce
 	}
 	tce.list = req
 	tce.lastRefreshed = time.Now()
@@ -128,7 +133,7 @@ func UpdateTargets(req *pb.TargetList) error {
 		t.Reporter = req.Reporter
 	}
 	if *debug {
-		fmt.Printf("Received %d targets from %s\n", len(targets.Targets), req.Reporter.Reporter)
+		fmt.Printf("Received %d targets from %s\n", len(targets.Targets), repname)
 	}
 
 	err := writeTargets()
