@@ -131,6 +131,7 @@ func UpdateTargets(req *pb.TargetList) error {
 	}
 	for _, t := range tce.list.Targets {
 		t.Reporter = req.Reporter
+		t.Reporter.Reporter = repname
 	}
 	if *debug {
 		fmt.Printf("Received %d targets from %s\n", len(targets.Targets), repname)
