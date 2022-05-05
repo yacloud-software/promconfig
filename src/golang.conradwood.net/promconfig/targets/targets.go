@@ -273,6 +273,7 @@ func QueryForTargets(ctx context.Context, req *pb.Reporter) (*pb.TargetList, err
 	if err != nil {
 		return nil, err
 	}
+	defer con.Close()
 	rg := reg.NewRegistryClient(con)
 	rl, err := rg.ListRegistrations(ctx, &reg.V2ListRequest{})
 	if err != nil {
