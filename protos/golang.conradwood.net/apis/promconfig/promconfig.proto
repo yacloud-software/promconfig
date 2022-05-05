@@ -41,6 +41,9 @@ message Series {
 message SeriesList {
   repeated Series Series=1;
 }
+message PercentAlertList {
+  repeated PercentAlert Alerts=1;
+}
 
 
 service PromConfigService {
@@ -52,4 +55,8 @@ service PromConfigService {
   rpc FindSeries(SeriesMatch) returns (SeriesList);
   // get a list of all metrics
   rpc GetSeries(common.Void) returns (SeriesList);
+  // save or create a simple percentage-based alert. If ID is set it will overwrite existing one
+  rpc UpdatePercentageAlert(PercentAlert) returns (PercentAlert);
+  // get all percentage alert
+  rpc GetAllPercentageAlerts(common.Void) returns (PercentAlertList);
 }
