@@ -5,7 +5,6 @@ import (
 	"fmt"
 	pb "golang.conradwood.net/apis/promconfig"
 	"golang.conradwood.net/go-easyops/authremote"
-	"golang.conradwood.net/go-easyops/client"
 	"golang.conradwood.net/go-easyops/cmdline"
 	"golang.conradwood.net/go-easyops/utils"
 	"os"
@@ -28,11 +27,7 @@ func main() {
 		Find()
 		os.Exit(0)
 	}
-	// get a Connection
-	// (also accepts a path, such as "picoservices/authserver/1" )
-	con := client.Connect("promconfig.PromConfigService")
-	// once we got a connection, here's the 'client'
-	echoClient := pb.NewPromConfigServiceClient(con)
+	echoClient := pb.GetPromConfigServiceClient()
 	// a context with authentication
 	ctx := authremote.Context()
 	rg := cmdline.GetRegistryAddress()
