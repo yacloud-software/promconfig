@@ -4,6 +4,7 @@ syntax = "proto3";
 package promconfig;
 option java_package = "net.conradwood.golang.apis.promconfig";
 import "golang.conradwood.net/apis/common/common.proto";
+import "golang.conradwood.net/apis/htmlserver/htmlserver.proto";
 
 message Target {
   string Name = 1;               // servicename
@@ -45,7 +46,6 @@ message PercentAlertList {
   repeated PercentAlert Alerts=1;
 }
 
-
 service PromConfigService {
   // query registry for new targets
   rpc QueryForTargets(Reporter) returns (TargetList);
@@ -59,4 +59,6 @@ service PromConfigService {
   rpc UpdatePercentageAlert(PercentAlert) returns (PercentAlert);
   // get all percentage alert
   rpc GetAllPercentageAlerts(common.Void) returns (PercentAlertList);
+  // renderer/editor
+  rpc HTMLRenderer(htmlserver.SnippetRequest) returns (htmlserver.SnippetResponse);
 }
