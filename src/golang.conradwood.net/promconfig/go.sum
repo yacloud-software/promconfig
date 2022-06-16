@@ -247,6 +247,10 @@ golang.conradwood.net/apis/framework v1.1.1687 h1:iqrAPbYFpq/iEPTSxsxfOx3gWub5dU
 golang.conradwood.net/apis/framework v1.1.1687/go.mod h1:aakclkFxoK6Rwfb6wWbfyCPRiWsAZM94xYz69Y9fid4=
 golang.conradwood.net/apis/framework v1.1.1697 h1:+Q5HE3O6cWPnTXfkNVsQfAFwkqD8Evwm1jqbYP9W8uM=
 golang.conradwood.net/apis/framework v1.1.1697/go.mod h1:aakclkFxoK6Rwfb6wWbfyCPRiWsAZM94xYz69Y9fid4=
+golang.conradwood.net/apis/h2gproxy v1.1.1701 h1:LMDICIR8XsfOktmu7eRc8WmehIEpl2EJc5dQ/AIzMys=
+golang.conradwood.net/apis/h2gproxy v1.1.1701/go.mod h1:/QxwL6QrsXr3qKABVL8hUgrpcmw5IvTpEajHhm5/c0c=
+golang.conradwood.net/apis/htmlserver v1.1.1701 h1:x2OPYc3M23/8GoZT8vyTzs6dZRzFsbWcBkMdZpOglyk=
+golang.conradwood.net/apis/htmlserver v1.1.1701/go.mod h1:vGLrlFQZkjnuhrn/9ZSlQ2pmVcX7UK5eLQ0ipxJF5k8=
 golang.conradwood.net/apis/logservice v1.1.1687/go.mod h1:lHKq9Oj6vUE77MOwAsk/zqTvfuJw3i0FEkhAz4w7I4c=
 golang.conradwood.net/apis/objectstore v1.1.1687 h1:fgQFU5xCY7YlgOd3MLYXtnU6zYv7FZJn1zI57U2IrI0=
 golang.conradwood.net/apis/objectstore v1.1.1687/go.mod h1:e2yf47IrPI8nSmbDODyI1zvhtP/f22VWK32GvFZgYjU=
