@@ -78,6 +78,9 @@ func reg_query_loop() {
 			pcs := &promConfigServer{}
 			for _, r := range strings.Split(*registries, ",") {
 				ctx := authremote.Context()
+				if *debug {
+					fmt.Printf("Reporter: %s\n", r)
+				}
 				req := &pb.Reporter{Reporter: r}
 				_, err := pcs.QueryForTargets(ctx, req)
 				if err != nil {
