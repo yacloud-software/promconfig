@@ -1,3 +1,3 @@
 module golang.conradwood.net/apis/promconfig
 
-go 1.17
+go 1.18
