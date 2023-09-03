@@ -1,6 +1,6 @@
 // client create: PromConfigServiceClient
 /*
-  Created by /srv/home/cnw/devel/go/go-tools/src/golang.conradwood.net/gotools/protoc-gen-cnw/protoc-gen-cnw.go
+  Created by /home/cnw/devel/go/yatools/src/golang.yacloud.eu/yatools/protoc-gen-cnw/protoc-gen-cnw.go
 */
 
 /* geninfo:
@@ -13,7 +13,7 @@
    varname   : client_PromConfigServiceClient_0
    clientname: PromConfigServiceClient
    servername: PromConfigServiceServer
-   gscvname  : promconfig.PromConfigService
+   gsvcname  : promconfig.PromConfigService
    lockname  : lock_PromConfigServiceClient_0
    activename: active_PromConfigServiceClient_0
 */
@@ -62,3 +62,7 @@ func GetPromConfigServiceClient() PromConfigServiceClient {
 }
 
 func PromConfigServiceLookupID() string { return "promconfig.PromConfigService" } // returns the ID suitable for lookup in the registry. treat as opaque, subject to change.
+
+func init() {
+   client.RegisterDependency("promconfig.PromConfigService")
+}
