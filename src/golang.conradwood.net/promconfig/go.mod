@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	golang.conradwood.net/apis/common v1.1.2503
-	golang.conradwood.net/apis/htmlserver v1.1.2304
+	golang.conradwood.net/apis/htmlserver v1.1.2526
 	golang.conradwood.net/apis/promconfig v1.1.1690
 	golang.conradwood.net/apis/registry v1.1.2503
 	golang.conradwood.net/go-easyops v0.1.19481
@@ -31,7 +31,7 @@ require (
 	golang.conradwood.net/apis/errorlogger v1.1.2495 // indirect
 	golang.conradwood.net/apis/framework v1.1.2503 // indirect
 	golang.conradwood.net/apis/goeasyops v1.1.2503 // indirect
-	golang.conradwood.net/apis/h2gproxy v1.1.2304 // indirect
+	golang.conradwood.net/apis/h2gproxy v1.1.2526 // indirect
 	golang.conradwood.net/apis/objectstore v1.1.2503 // indirect
 	golang.conradwood.net/apis/rpcinterceptor v1.1.2495 // indirect
 	golang.org/x/net v0.14.0 // indirect

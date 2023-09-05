@@ -44,10 +44,10 @@ golang.conradwood.net/apis/framework v1.1.2503 h1:SpqBi75HmRmj48EYjqCl9AXYCWiubT
 golang.conradwood.net/apis/framework v1.1.2503/go.mod h1:a8WDJ4qsCA7rqeUx/s9ehMxxloqGzAlz7+aHIaKcz/A=
 golang.conradwood.net/apis/goeasyops v1.1.2503 h1:vNdg1iEn9uq6w/xit5EFO/UCN6YTLuNQNwuWYJzrG3g=
 golang.conradwood.net/apis/goeasyops v1.1.2503/go.mod h1:uA+AbBCJJ2atLoXONz27w0CacXDfhqsQVTHU9OV41+A=
-golang.conradwood.net/apis/h2gproxy v1.1.2304 h1:MVUi7ax917/P7gtAhT3yM6WiPZBAVg5xQ4TJZSZV7r8=
-golang.conradwood.net/apis/h2gproxy v1.1.2304/go.mod h1:HThRf3oRD4H6qbjhn+mHt5u6/pJ3N/s2GFZXn6JKBDY=
-golang.conradwood.net/apis/htmlserver v1.1.2304 h1:e0ucVM2mZ58OFsqxKeN5SFq+qTSSt6fVZJy2tqGjKkw=
-golang.conradwood.net/apis/htmlserver v1.1.2304/go.mod h1:nBBp7N5iaE5Xtmk17Coj1JuVuxp/pKuq3OGtWuSROEk=
+golang.conradwood.net/apis/h2gproxy v1.1.2526 h1:XTGkz3WviKOe2+AQH+ZLxRWSXOSZTN9clxWdc78VB/k=
+golang.conradwood.net/apis/h2gproxy v1.1.2526/go.mod h1:hV2g2yHAcl+LLgJefvNJmQGMHFOZCJHPXS5lp3EZb+I=
+golang.conradwood.net/apis/htmlserver v1.1.2526 h1:Z6AAaWpysw9G7i3TG4rE+o/9DniXW44VvIxqOiWOgLI=
+golang.conradwood.net/apis/htmlserver v1.1.2526/go.mod h1:Xs7DtzRuqfZfv449s4EuaKXnFhhWhriXXHGgGnQ7/Ms=
 golang.conradwood.net/apis/objectstore v1.1.2503 h1:ylhSoEKjoW5PnNLgLBKmfm19UPbzoNsHAQB8NEGCAgg=
 golang.conradwood.net/apis/objectstore v1.1.2503/go.mod h1:/epSFsxgELu/8CFg9eOInujLDyxmBar5KLX+F/oKweE=
 golang.conradwood.net/apis/registry v1.1.2503 h1:jMHHCMhp46AgN45C88X0hKVlTIYVzTPrBEaKv5HAabY=
