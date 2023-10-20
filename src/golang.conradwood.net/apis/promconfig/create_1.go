@@ -65,4 +65,5 @@ func PromConfigServiceLookupID() string { return "promconfig.PromConfigService" 
 
 func init() {
    client.RegisterDependency("promconfig.PromConfigService")
+   AddService("promconfig.PromConfigService")
 }
