@@ -31,7 +31,7 @@ func main() {
 	fmt.Printf("Starting Promconfig...\n")
 	go reg_query_loop()
 	sd := server.NewServerDef()
-	sd.Port = *port
+	sd.SetPort(*port)
 	sd.Register = server.Register(
 		func(server *grpc.Server) error {
 			e := new(promConfigServer)
