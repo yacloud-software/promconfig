@@ -169,7 +169,9 @@ func writeTargets() error {
 		t := targets.TargetsByName(name)
 		fname := fmt.Sprintf("%s/%s.yaml", dir, name)
 		delete(files, fname)
-		s := fmt.Sprintf("%s\n- targets:\n", YAML_ID)
+		s := fmt.Sprintf("%s\n", YAML_ID)
+		s = s + fmt.Sprintf("# targets for %s\n", name)
+		s = s + fmt.Sprintf("- targets:\n")
 		for _, adr := range t {
 			comment := fmt.Sprintf(" Reported by \"%s\" on %s", adr.Reporter.Reporter, utils.TimeString(adr.reported))
 			s = s + fmt.Sprintf("   # %s\n", comment)
