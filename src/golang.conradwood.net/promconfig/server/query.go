@@ -81,3 +81,4 @@ func getAllSeries() (*pb.SeriesList, error) {
 	}
 	return res, nil
 }
+

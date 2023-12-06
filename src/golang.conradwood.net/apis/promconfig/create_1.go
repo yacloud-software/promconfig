@@ -67,3 +67,4 @@ func init() {
    client.RegisterDependency("promconfig.PromConfigService")
    AddService("promconfig.PromConfigService")
 }
+
