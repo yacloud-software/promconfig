@@ -37,3 +37,4 @@ func (e *promConfigServer) GetAllPercentageAlerts(ctx context.Context, req *comm
 	return res, nil
 }
 
+
