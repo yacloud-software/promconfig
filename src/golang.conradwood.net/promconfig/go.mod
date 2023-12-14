@@ -7,9 +7,9 @@ require (
 	golang.conradwood.net/apis/htmlserver v1.1.2643
 	golang.conradwood.net/apis/promconfig v1.1.1690
 	golang.conradwood.net/apis/registry v1.1.2643
-	golang.conradwood.net/go-easyops v0.1.23172
-	golang.org/x/sys v0.14.0
-	google.golang.org/grpc v1.59.0
+	golang.conradwood.net/go-easyops v0.1.23293
+	golang.org/x/sys v0.15.0
+	google.golang.org/grpc v1.60.0
 )
 
 require (
@@ -32,12 +32,12 @@ require (
 	golang.conradwood.net/apis/goeasyops v1.1.2712 // indirect
 	golang.conradwood.net/apis/h2gproxy v1.1.2643 // indirect
 	golang.conradwood.net/apis/objectstore v1.1.2643 // indirect
-	golang.org/x/net v0.18.0 // indirect
+	golang.org/x/net v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.yacloud.eu/apis/fscache v1.1.2643 // indirect
 	golang.yacloud.eu/apis/session v1.1.2712 // indirect
 	golang.yacloud.eu/apis/urlcacher v1.1.2643 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230822172742-b8732ec3820d // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20231002182017-d307bd883b97 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
