@@ -7,7 +7,7 @@ require (
 	golang.conradwood.net/apis/htmlserver v1.1.2643
 	golang.conradwood.net/apis/promconfig v1.1.1690
 	golang.conradwood.net/apis/registry v1.1.2643
-	golang.conradwood.net/go-easyops v0.1.23582
+	golang.conradwood.net/go-easyops v0.1.23649
 	golang.org/x/sys v0.15.0
 	google.golang.org/grpc v1.60.0
 )
