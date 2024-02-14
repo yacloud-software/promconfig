@@ -47,6 +47,13 @@ message PercentAlertList {
   repeated PercentAlert Alerts=1;
 }
 
+message Config {
+  repeated TargetConfig Configs=1;
+}
+message TargetConfig {
+  string ServiceName=1;
+  uint32 SampleLimit=2;
+}
 service PromConfigService {
   // query registry for new targets
   rpc QueryForTargets(Reporter) returns (TargetList);
