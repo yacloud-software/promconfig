@@ -241,11 +241,16 @@ func RewriteConfigFile() {
 			continue
 		}
 		dedup[t.Name] = true
+		job_cfg := get_config_for_service(t.Name)
 		fname := fmt.Sprintf("%s/%s.yaml", dir, t.Name)
 
 		buffer.WriteString(fmt.Sprintf("  - job_name: '%s'\n", t.Name))
-		if *sample_limit != 0 {
-			buffer.WriteString(fmt.Sprintf("    sample_limit: %d\n", *sample_limit))
+		sl := *sample_limit
+		if job_cfg != nil {
+			sl = int(job_cfg.SampleLimit)
+		}
+		if sl != 0 {
+			buffer.WriteString(fmt.Sprintf("    sample_limit: %d\n", sl))
 		}
 		buffer.WriteString(fmt.Sprintf("    metrics_path: '/internal/service-info/metrics'\n"))
 		buffer.WriteString(fmt.Sprintf("    scheme: 'https'\n"))
@@ -313,9 +318,3 @@ func hasStatus(r *reg.Target) bool {
 	}
 	return false
 }
-
-
-
-
-
-

@@ -29,6 +29,8 @@ type promConfigServer struct {
 func main() {
 	flag.Parse()
 	fmt.Printf("Starting Promconfig...\n")
+	var err error
+
 	go reg_query_loop()
 	sd := server.NewServerDef()
 	sd.SetPort(*port)
@@ -39,7 +41,7 @@ func main() {
 			return nil
 		},
 	))
-	err := server.ServerStartup(sd)
+	err = server.ServerStartup(sd)
 	utils.Bail("Unable to start server", err)
 	os.Exit(0)
 }
@@ -91,9 +93,3 @@ func reg_query_loop() {
 		t = time.Duration(15) * time.Minute
 	}
 }
-
-
-
-
-
-
