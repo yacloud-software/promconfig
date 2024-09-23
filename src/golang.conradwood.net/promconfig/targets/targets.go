@@ -8,17 +8,18 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	pb "golang.conradwood.net/apis/promconfig"
-	reg "golang.conradwood.net/apis/registry"
-	"golang.conradwood.net/go-easyops/client"
-	"golang.conradwood.net/go-easyops/utils"
-	"golang.org/x/sys/unix"
 	"io/ioutil"
 	"os"
 	"sort"
 	"strings"
 	"sync"
 	"time"
+
+	pb "golang.conradwood.net/apis/promconfig"
+	reg "golang.conradwood.net/apis/registry"
+	"golang.conradwood.net/go-easyops/client"
+	"golang.conradwood.net/go-easyops/utils"
+	"golang.org/x/sys/unix"
 )
 
 const (
@@ -177,6 +178,8 @@ func writeTargets() error {
 			s = s + fmt.Sprintf("   # %s\n", comment)
 			s = s + fmt.Sprintf("   - %s\n", adr.Address)
 		}
+		s = s + fmt.Sprintf("  labels:\n")
+		s = s + fmt.Sprintf("     service= '%s'\n", name)
 		e := ioutil.WriteFile(fname, []byte(s), 0666)
 		if e != nil {
 			err = e

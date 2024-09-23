@@ -3,18 +3,21 @@ package main
 import (
 	"flag"
 	"fmt"
+
 	"golang.conradwood.net/apis/common"
 	pb "golang.conradwood.net/apis/promconfig"
 	"golang.conradwood.net/go-easyops/authremote"
 	"golang.conradwood.net/go-easyops/server"
+
 	//	"golang.conradwood.net/go-easyops/utils"
 	"context"
-	"golang.conradwood.net/go-easyops/utils"
-	"golang.conradwood.net/promconfig/targets"
-	"google.golang.org/grpc"
 	"os"
 	"strings"
 	"time"
+
+	"golang.conradwood.net/go-easyops/utils"
+	"golang.conradwood.net/promconfig/targets"
+	"google.golang.org/grpc"
 )
 
 var (
@@ -29,6 +32,7 @@ type promConfigServer struct {
 func main() {
 	flag.Parse()
 	fmt.Printf("Starting Promconfig...\n")
+	server.SetHealth(common.Health_READY)
 	var err error
 
 	go reg_query_loop()
