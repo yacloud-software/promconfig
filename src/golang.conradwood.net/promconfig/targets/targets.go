@@ -179,7 +179,7 @@ func writeTargets() error {
 			s = s + fmt.Sprintf("   - %s\n", adr.Address)
 		}
 		s = s + fmt.Sprintf("  labels:\n")
-		s = s + fmt.Sprintf("     service: '%s'\n", name)
+		s = s + fmt.Sprintf("     service: %s\n", name)
 		e := ioutil.WriteFile(fname, []byte(s), 0666)
 		if e != nil {
 			err = e
