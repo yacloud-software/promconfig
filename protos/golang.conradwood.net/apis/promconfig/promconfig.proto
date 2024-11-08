@@ -11,6 +11,7 @@ message Target {
   string Name = 1;               // servicename
   repeated string Addresses = 2; // host:port
   Reporter Reporter = 3;         // who reported it?
+  bool HTTPOnly=4; // default: 'https'
 }
 message Reporter {
   string Reporter = 1; // who reports this (e.g. registry)
