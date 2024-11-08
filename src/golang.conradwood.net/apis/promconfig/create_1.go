@@ -4,7 +4,7 @@
 */
 
 /* geninfo:
-   filename  : protos/golang.conradwood.net/apis/promconfig/promconfig.proto
+   filename  : golang.conradwood.net/apis/promconfig/promconfig.proto
    gopackage : golang.conradwood.net/apis/promconfig
    importname: ai_0
    clientfunc: GetPromConfigService

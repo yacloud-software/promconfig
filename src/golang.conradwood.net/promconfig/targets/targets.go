@@ -64,6 +64,7 @@ type targetaddress struct {
 	Reporter *pb.Reporter
 	Address  string
 	reported time.Time
+	httponly bool
 }
 
 func (t *targetCache) TargetsByName(name string) []*targetaddress {
@@ -79,6 +80,7 @@ func (t *targetCache) TargetsByName(name string) []*targetaddress {
 					Reporter: t.Reporter,
 					Address:  adr,
 					reported: v.lastRefreshed,
+					httponly: t.HTTPOnly,
 				}
 				res = append(res, ta)
 			}
@@ -258,9 +260,13 @@ func RewriteConfigFile() {
 			buffer.WriteString(fmt.Sprintf("    sample_limit: %d\n", sl))
 		}
 		buffer.WriteString(fmt.Sprintf("    metrics_path: '/internal/service-info/metrics'\n"))
-		buffer.WriteString(fmt.Sprintf("    scheme: 'https'\n"))
-		buffer.WriteString(fmt.Sprintf("    tls_config:\n"))
-		buffer.WriteString(fmt.Sprintf("      insecure_skip_verify: true\n"))
+		if t.httponly {
+			buffer.WriteString(fmt.Sprintf("    scheme: 'http'\n"))
+		} else {
+			buffer.WriteString(fmt.Sprintf("    scheme: 'https'\n"))
+			buffer.WriteString(fmt.Sprintf("    tls_config:\n"))
+			buffer.WriteString(fmt.Sprintf("      insecure_skip_verify: true\n"))
+		}
 		buffer.WriteString(fmt.Sprintf("    file_sd_configs:\n"))
 		buffer.WriteString(fmt.Sprintf("      - files:\n"))
 		buffer.WriteString(fmt.Sprintf("        - '%s'\n", fname))
