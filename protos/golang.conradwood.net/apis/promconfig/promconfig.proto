@@ -11,7 +11,11 @@ message Target {
   string Name = 1;               // servicename
   repeated string Addresses = 2; // host:port
   Reporter Reporter = 3;         // who reported it?
-  bool HTTPOnly=4; // default: 'https'
+  EmbeddedTargetConfig TargetConfig=4;
+}
+message EmbeddedTargetConfig {
+  bool HTTPOnly=1; // default: 'https'
+  string MetricsPath=2; // default: "/internal/serveice-info/metrics"
 }
 message Reporter {
   string Reporter = 1; // who reports this (e.g. registry)
