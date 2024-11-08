@@ -46,8 +46,8 @@ func handle_all_server_config(servers []*known_server) error {
 		Reporter: rep,
 	}
 	t := &promconfig.Target{
-		Name:     "prometheus-node-exporter",
-		HTTPOnly: true,
+		Name:         "prometheus-node-exporter",
+		TargetConfig: &promconfig.EmbeddedTargetConfig{HTTPOnly: true, MetricsPath: "/metrics"},
 	}
 	tl.Targets = append(tl.Targets, t)
 	for _, s := range servers {

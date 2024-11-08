@@ -64,7 +64,18 @@ type targetaddress struct {
 	Reporter *pb.Reporter
 	Address  string
 	reported time.Time
-	httponly bool
+	cfg      *pb.EmbeddedTargetConfig
+}
+
+func (ta *targetaddress) GetConfig() *pb.EmbeddedTargetConfig {
+	if ta.cfg != nil {
+		return ta.cfg
+	}
+	// return a default config
+	return &pb.EmbeddedTargetConfig{
+		HTTPOnly:    false,
+		MetricsPath: "/internal/serveice-info/metrics",
+	}
 }
 
 func (t *targetCache) TargetsByName(name string) []*targetaddress {
@@ -80,7 +91,7 @@ func (t *targetCache) TargetsByName(name string) []*targetaddress {
 					Reporter: t.Reporter,
 					Address:  adr,
 					reported: v.lastRefreshed,
-					httponly: t.HTTPOnly,
+					cfg:      t.TargetConfig,
 				}
 				res = append(res, ta)
 			}
@@ -259,8 +270,9 @@ func RewriteConfigFile() {
 		if sl != 0 {
 			buffer.WriteString(fmt.Sprintf("    sample_limit: %d\n", sl))
 		}
-		buffer.WriteString(fmt.Sprintf("    metrics_path: '/internal/service-info/metrics'\n"))
-		if t.httponly {
+		cfg := t.GetConfig()
+		buffer.WriteString(fmt.Sprintf("    metrics_path: '%s'\n", cfg.MetricsPath))
+		if cfg.HTTPOnly {
 			buffer.WriteString(fmt.Sprintf("    scheme: 'http'\n"))
 		} else {
 			buffer.WriteString(fmt.Sprintf("    scheme: 'https'\n"))
