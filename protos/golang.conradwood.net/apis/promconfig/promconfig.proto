@@ -74,4 +74,6 @@ service PromConfigService {
   rpc GetAllPercentageAlerts(common.Void) returns (PercentAlertList);
   // renderer/editor
   rpc HTMLRenderer(htmlserver.SnippetRequest) returns (htmlserver.SnippetResponse);
+  // requery
+  rpc Requery(common.Void) returns (common.Void);
 }
