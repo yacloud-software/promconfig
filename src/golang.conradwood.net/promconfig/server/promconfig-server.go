@@ -58,6 +58,13 @@ func (e *promConfigServer) QueryForTargets(ctx context.Context, req *pb.Reporter
 	if err != nil {
 		return nil, err
 	}
+	// update our server list
+	for _, target := range tl.Targets {
+		for _, adr := range target.Addresses {
+			AddServer(adr)
+		}
+	}
+
 	err = targets.UpdateTargets(tl)
 	if err != nil {
 		return nil, err
@@ -65,6 +72,14 @@ func (e *promConfigServer) QueryForTargets(ctx context.Context, req *pb.Reporter
 	return tl, nil
 }
 func (e *promConfigServer) NewTargets(ctx context.Context, req *pb.TargetList) (*common.Void, error) {
+	// update our server list
+	for _, target := range req.Targets {
+		for _, adr := range target.Addresses {
+			AddServer(adr)
+		}
+	}
+
+	// consider the targets themselves
 	err := targets.UpdateTargets(req)
 	if err != nil {
 		if *debug {
