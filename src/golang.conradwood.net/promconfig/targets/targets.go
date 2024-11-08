@@ -74,7 +74,7 @@ func (ta *targetaddress) GetConfig() *pb.EmbeddedTargetConfig {
 	// return a default config
 	return &pb.EmbeddedTargetConfig{
 		HTTPOnly:    false,
-		MetricsPath: "/internal/serveice-info/metrics",
+		MetricsPath: "/internal/service-info/metrics",
 	}
 }
 

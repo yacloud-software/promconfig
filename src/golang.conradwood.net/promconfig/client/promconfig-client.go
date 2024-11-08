@@ -3,16 +3,19 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
+	"strings"
+
+	"golang.conradwood.net/apis/common"
 	pb "golang.conradwood.net/apis/promconfig"
 	"golang.conradwood.net/go-easyops/authremote"
 	"golang.conradwood.net/go-easyops/cmdline"
 	"golang.conradwood.net/go-easyops/utils"
-	"os"
-	"strings"
 )
 
 var (
-	find = flag.String("find", "", "find a given series")
+	requery = flag.Bool("requery", false, "requery registries")
+	find    = flag.String("find", "", "find a given series")
 )
 
 // this is a very simple client.
@@ -25,6 +28,11 @@ func main() {
 	flag.Parse()
 	if *find != "" {
 		Find()
+		os.Exit(0)
+	}
+	if *requery {
+		_, err := pb.GetPromConfigServiceClient().Requery(authremote.Context(), &common.Void{})
+		utils.Bail("failed to query", err)
 		os.Exit(0)
 	}
 	echoClient := pb.GetPromConfigServiceClient()
@@ -61,9 +69,3 @@ func buildMatcher(s string) *pb.SeriesMatch {
 	}
 	return res
 }
-
-
-
-
-
-

@@ -1,12 +1,13 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"sync"
-	"time"
-
 	"golang.conradwood.net/go-easyops/errors"
 	"golang.conradwood.net/go-easyops/utils"
+	"strings"
+	"sync"
+	"time"
 )
 
 var (
@@ -14,6 +15,7 @@ var (
 	server_list_version     int
 	server_list_last_change time.Time
 	all_known_servers       = make(map[string]*known_server)
+	ignore_servers          = flag.String("ignore_servers", "", "a comma delimited list of ipaddresses to ignore from the all_servers (e.g. node) list (only). does not affect registry entries")
 )
 
 type known_server struct {
@@ -24,6 +26,9 @@ func AddServer(ip string) {
 	ip, _, _, err := utils.ParseIP(ip)
 	if err != nil {
 		fmt.Printf("Server \"%s\" does not have a valid ip: %s\n", ip, errors.ErrorString(err))
+		return
+	}
+	if isIgnored(ip) {
 		return
 	}
 	added := false
@@ -51,4 +56,18 @@ func GetServerList() []*known_server {
 	}
 	servers_lock.Unlock()
 	return res
+}
+
+func isIgnored(ip string) bool {
+	iplist := *ignore_servers
+	if len(iplist) == 0 {
+		return false
+	}
+	for _, ipl := range strings.Split(iplist, ",") {
+		ipl = strings.Trim(ipl, " ")
+		if ipl == ip {
+			return true
+		}
+	}
+	return false
 }

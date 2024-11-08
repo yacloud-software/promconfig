@@ -21,9 +21,10 @@ import (
 )
 
 var (
-	port       = flag.Int("port", 10000, "The grpc server port")
-	debug      = flag.Bool("debug", false, "debug mode")
-	registries = flag.String("registries", "", "if set, query these registries regularly and on startup")
+	port         = flag.Int("port", 10000, "The grpc server port")
+	debug        = flag.Bool("debug", false, "debug mode")
+	registries   = flag.String("registries", "", "if set, query these registries regularly and on startup")
+	requery_chan = make(chan bool, 2)
 )
 
 type promConfigServer struct {
@@ -90,11 +91,20 @@ func (e *promConfigServer) NewTargets(ctx context.Context, req *pb.TargetList) (
 	resp := &common.Void{}
 	return resp, nil
 }
-
+func (e promConfigServer) Requery(ctx context.Context, req *common.Void) (*common.Void, error) {
+	requery_chan <- true
+	return req, nil
+}
 func reg_query_loop() {
 	t := time.Duration(3) * time.Second
 	for {
-		time.Sleep(t)
+		select {
+		case <-time.After(t):
+			//
+		case <-requery_chan:
+			//
+		}
+
 		if *registries != "" {
 			pcs := &promConfigServer{}
 			for _, r := range strings.Split(*registries, ",") {
