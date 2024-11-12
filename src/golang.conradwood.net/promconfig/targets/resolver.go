@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"sort"
+	"strings"
 	"time"
 
 	"golang.conradwood.net/go-easyops/cache"
@@ -41,7 +42,7 @@ func HostName(ip string) (string, uint32) {
 	sort.Slice(addr, func(i, j int) bool {
 		return addr[i] < addr[j]
 	})
-	res := addr[0]
+	res := strings.TrimSuffix(addr[0], ".")
 	hce := &hostcache_entry{hostname: res, port: port}
 	hostcache.Put(nip, hce)
 	return res, port
