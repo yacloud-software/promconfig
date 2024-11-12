@@ -17,7 +17,6 @@ var (
 
 type hostcache_entry struct {
 	hostname string
-	port     uint32
 }
 
 func HostName(ip string) (string, uint32) {
@@ -29,7 +28,7 @@ func HostName(ip string) (string, uint32) {
 	o := hostcache.Get(nip)
 	if o != nil {
 		hce := o.(*hostcache_entry)
-		return hce.hostname, hce.port
+		return hce.hostname, port
 	}
 	addr, err := net.LookupAddr(nip)
 	if err != nil {
@@ -43,7 +42,7 @@ func HostName(ip string) (string, uint32) {
 		return addr[i] < addr[j]
 	})
 	res := strings.TrimSuffix(addr[0], ".")
-	hce := &hostcache_entry{hostname: res, port: port}
+	hce := &hostcache_entry{hostname: res}
 	hostcache.Put(nip, hce)
 	return res, port
 
