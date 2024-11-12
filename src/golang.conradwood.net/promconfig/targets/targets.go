@@ -27,13 +27,14 @@ const (
 )
 
 var (
-	targetsdir   = flag.String("prometheus_targets", "/etc/prometheus/promconfig/targets", "Directory to store targets for prometheus in. (empty==no targetfiles are maintained)")
-	templatefile = flag.String("prometheus_config_template", "/etc/prometheus/config_template.yaml", "A prometheus config file to use as template (prefix)")
-	pmcfgfile    = flag.String("prometheus_config_file", "/etc/prometheus/config.yaml", "If not empty, maintain a prometheus config file")
-	sample_limit = flag.Int("prometheus_sample_limit", 4000, "set to non-zero to enable prometheus 'sample_limit' option")
-	debug        = flag.Bool("debug_targets", false, "debug target writing")
-	targets      *targetCache
-	promlock     sync.Mutex
+	resolve_addresses = flag.Bool("resolve_addresses", true, "if true use DNS names instead of ip addresses")
+	targetsdir        = flag.String("prometheus_targets", "/etc/prometheus/promconfig/targets", "Directory to store targets for prometheus in. (empty==no targetfiles are maintained)")
+	templatefile      = flag.String("prometheus_config_template", "/etc/prometheus/config_template.yaml", "A prometheus config file to use as template (prefix)")
+	pmcfgfile         = flag.String("prometheus_config_file", "/etc/prometheus/config.yaml", "If not empty, maintain a prometheus config file")
+	sample_limit      = flag.Int("prometheus_sample_limit", 4000, "set to non-zero to enable prometheus 'sample_limit' option")
+	debug             = flag.Bool("debug_targets", false, "debug target writing")
+	targets           *targetCache
+	promlock          sync.Mutex
 )
 
 type targetCache struct {
@@ -162,6 +163,7 @@ func UpdateTargets(req *pb.TargetList) error {
 	return nil
 }
 
+// write address list yaml files (the actual targets)
 func writeTargets() error {
 	var err error
 	dir := fmt.Sprintf("%s/%s", *targetsdir, "registry")
@@ -189,7 +191,14 @@ func writeTargets() error {
 		for _, adr := range t {
 			comment := fmt.Sprintf(" Reported by \"%s\" on %s", adr.Reporter.Reporter, utils.TimeString(adr.reported))
 			s = s + fmt.Sprintf("   # %s\n", comment)
-			s = s + fmt.Sprintf("   - %s\n", adr.Address)
+			hostname := adr.Address
+			if *resolve_addresses {
+				hn, port := HostName(hostname)
+				if hn != "" {
+					hostname = fmt.Sprintf("%s:%d", hn, port)
+				}
+			}
+			s = s + fmt.Sprintf("   - %s\n", hostname)
 		}
 		/*
 			s = s + fmt.Sprintf("  labels:\n")
@@ -240,6 +249,7 @@ func targetName(name string) string {
 	return x[0]
 }
 
+// rewrite config.yaml
 func RewriteConfigFile() {
 	dir := fmt.Sprintf("%s/%s", *targetsdir, "registry")
 	var buffer bytes.Buffer
