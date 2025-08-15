@@ -33,7 +33,7 @@ func HostName(ip string) (string, uint32) {
 	addr, err := net.LookupAddr(nip)
 	if err != nil {
 		utils.PrintStack("DNS Error")
-		fmt.Printf("Lookup failed: %s\n", err)
+		fmt.Printf("Lookup failed (for ip=%s / nip=%s):  %s\n", ip, nip, err)
 		return "", 0
 	}
 	if len(addr) == 0 {

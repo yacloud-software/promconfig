@@ -196,6 +196,8 @@ func writeTargets() error {
 				hn, port := HostName(hostname)
 				if hn != "" {
 					hostname = fmt.Sprintf("%s:%d", hn, port)
+				} else {
+					fmt.Printf("No hostname for %v\n", adr)
 				}
 			}
 			s = s + fmt.Sprintf("   - %s\n", hostname)
