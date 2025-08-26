@@ -39,6 +39,7 @@ func main() {
 	go reg_query_loop()
 	sd := server.NewServerDef()
 	sd.SetPort(*port)
+sd.SetOnStartupCallback(startup)
 	sd.SetRegister(server.Register(
 		func(server *grpc.Server) error {
 			e := new(promConfigServer)
@@ -49,6 +50,9 @@ func main() {
 	err = server.ServerStartup(sd)
 	utils.Bail("Unable to start server", err)
 	os.Exit(0)
+}
+func startup() {
+	server.SetHealth(common.Health_READY)
 }
 
 /************************************
@@ -122,3 +126,5 @@ func reg_query_loop() {
 		t = time.Duration(15) * time.Minute
 	}
 }
+
+
